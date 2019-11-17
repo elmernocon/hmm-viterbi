@@ -1,0 +1,3 @@
+#!/Users/elmernocon/Documents/Projects/GitHub/elmernocon/hmm/venv/bin/python
+from numba.pycc import main
+main()
