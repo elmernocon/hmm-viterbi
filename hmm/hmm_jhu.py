@@ -39,7 +39,7 @@ class HMM(object):
             self.s_map[self.S[i]] = i
 
         # Create and populate transition probability matrix
-        self.A = np.zeros(shape=(self.q_len, self.q_len), dtype=float)
+        self.A = np.zeros(shape=(self.q_len, self.q_len), dtype=np.float64)
         for transition, probability in transition_matrix.items():
             source, destination = transition[0], transition[1]
             self.A[self.q_map[source], self.q_map[destination]] = probability
@@ -51,7 +51,7 @@ class HMM(object):
         self.A /= a_sums
 
         # Create and populate emission probability matrix
-        self.E = np.zeros(shape=(self.q_len, self.s_len), dtype=float)
+        self.E = np.zeros(shape=(self.q_len, self.s_len), dtype=np.float64)
         for emission, probability in emission_matrix.items():
             state, symbol = emission[0], emission[1]
             self.E[self.q_map[state], self.s_map[symbol]] = probability
