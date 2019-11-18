@@ -28,7 +28,22 @@ L  0.75  0.25\n\
 Initial Probability:\n\
      %\n\
 F  0.5\n\
-L  0.5"
+L  0.5\n\
+\n\
+Transition Matrix (log2):\n\
+          F         L\n\
+F -0.234465 -2.736966\n\
+L -3.321928 -0.152003\n\
+\n\
+Emission Matrix (log2):\n\
+          H         T\n\
+F -0.621488 -1.514573\n\
+L -0.415037 -2.000000\n\
+\n\
+Initial Probability (log2):\n\
+     %\n\
+F -1.0\n\
+L -1.0"
         r_a = str(hmm)
 
         self.assertEqual(r_e, r_a)

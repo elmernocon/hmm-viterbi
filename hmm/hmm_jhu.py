@@ -92,6 +92,21 @@ class HMM(object):
             index=lambda s: self.Q.__getitem__(int(s))
         )
 
+        transition_log_data_frame = pd.DataFrame(self.A_log).rename(
+            columns=lambda s: self.Q.__getitem__(int(s)),
+            index=lambda s: self.Q.__getitem__(int(s)),
+        )
+
+        emission_log_data_frame = pd.DataFrame(self.E_log).rename(
+            columns=lambda s: self.S.__getitem__(int(s)),
+            index=lambda s: self.Q.__getitem__(int(s)),
+        )
+
+        initial_log_probability_data_frame = pd.DataFrame(self.I_log).rename(
+            columns=lambda _: "%",
+            index=lambda s: self.Q.__getitem__(int(s))
+        )
+
         representation = [
             f"States: {self.Q}",
             f"Symbols: {self.S}",
@@ -100,7 +115,13 @@ class HMM(object):
             "",
             "Emission Matrix:", str(emission_data_frame),
             "",
-            "Initial Probability:", str(initial_probability_data_frame)
+            "Initial Probability:", str(initial_probability_data_frame),
+            "",
+            "Transition Matrix (log2):", str(transition_log_data_frame),
+            "",
+            "Emission Matrix (log2):", str(emission_log_data_frame),
+            "",
+            "Initial Probability (log2):", str(initial_log_probability_data_frame)
         ]
 
         return "\n".join(representation)
