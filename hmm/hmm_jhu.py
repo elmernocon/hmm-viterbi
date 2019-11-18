@@ -45,7 +45,10 @@ class HMM(object):
             self.A[self.q_map[source], self.q_map[destination]] = probability
 
         # Make self.A stochastic (i.e. make rows add to 1)
-        self.A /= self.A.sum(axis=1)[:, np.newaxis]
+        # self.A /= self.A.sum(axis=1)[:, np.newaxis]
+        a_sums = self.A.sum(axis=1, keepdims=1)
+        a_sums[a_sums == 0] = 1
+        self.A /= a_sums
 
         # Create and populate emission probability matrix
         self.E = np.zeros(shape=(self.q_len, self.s_len), dtype=float)
@@ -54,7 +57,10 @@ class HMM(object):
             self.E[self.q_map[state], self.s_map[symbol]] = probability
 
         # Make self.E stochastic (i.e. make rows add to 1)
-        self.E /= self.E.sum(axis=1)[:, np.newaxis]
+        # self.E /= self.E.sum(axis=1)[:, np.newaxis]
+        e_sums = self.E.sum(axis=1, keepdims=1)
+        e_sums[e_sums == 0] = 1
+        self.E /= e_sums
 
         # Initial probability
         self.I = [0.0] * self.q_len
