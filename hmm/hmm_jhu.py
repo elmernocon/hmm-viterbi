@@ -129,7 +129,11 @@ class HMM(object):
     @staticmethod
     def numba_warm_up():
         m = HMM({"AA": 1.0}, {"Aa": 1.0}, {"A": 1.0})
+
+        # HMM.calculate_viterbi_numba(m.Q, m.A, m.E, m.I, m.convert_symbols("a"))
         m.viterbi_numba("a")
+
+        # HMM.calculate_viterbi_log_numba(m.Q, m.A_log, m.E_log, m.I_log, m.convert_symbols("a"))
         m.viterbi_log_numba("a")
 
     @staticmethod
