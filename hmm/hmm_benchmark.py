@@ -1,7 +1,7 @@
 import timeit
 
 
-def benchmark_base():
+def benchmark_base(observation: str, number: int):
 
     setup = '''
 from hmm.hmm_jhu import HMM
@@ -12,17 +12,15 @@ hmm = HMM(
     {"F": 0.5, "L": 0.5})                                   # Initial probabilities
 '''
 
-    stmt = '''
-hmm.viterbi("THTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTH")
-'''
+    stmt = f'hmm.viterbi("{observation}")'
 
     print(timeit.timeit(
         setup=setup,
         stmt=stmt,
-        number=100))
+        number=number))
 
 
-def benchmark_numba():
+def benchmark_numba(observation: str, number: int):
 
     setup = '''
 import warnings
@@ -40,16 +38,17 @@ hmm = HMM(
     {"F": 0.5, "L": 0.5})                                   # Initial probabilities
     '''
 
-    stmt = '''
-hmm.viterbi_numba("THTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTH")
-    '''
+    stmt = f'hmm.viterbi_numba("{observation}")'
 
     print(timeit.timeit(
         setup=setup,
         stmt=stmt,
-        number=100))
+        number=number))
 
 
 if __name__ == '__main__':
-    benchmark_base()
-    benchmark_numba()
+
+    obs, num = "THTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTH", 100000
+
+    benchmark_base(obs, num)
+    benchmark_numba(obs, num)
