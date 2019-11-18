@@ -127,6 +127,12 @@ class HMM(object):
         return "\n".join(representation)
 
     @staticmethod
+    def numba_warm_up():
+        m = HMM({"AA": 1.0}, {"Aa": 1.0}, {"A": 1.0})
+        m.viterbi_numba("a")
+        m.viterbi_log_numba("a")
+
+    @staticmethod
     def calculate_viterbi(
             states: List[str],
             transition_matrix,

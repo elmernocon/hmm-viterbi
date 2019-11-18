@@ -32,12 +32,12 @@ warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
 
 from hmm.hmm_jhu import HMM
 
+HMM.numba_warm_up()
+
 hmm = HMM(
     {"FF": 0.6, "FL": 0.4, "LF": 0.4, "LL": 0.6},           # Transition matrix
     {"FH": 0.5, "FT": 0.5, "LH": 0.8, "LT": 0.2},           # Emission matrix
     {"F": 0.5, "L": 0.5})                                   # Initial probabilities
-
-hmm.viterbi_numba("T")
     '''
 
     stmt = '''
