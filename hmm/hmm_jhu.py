@@ -1,6 +1,6 @@
-import numba as nb
 import numpy as np
 import pandas as pd
+
 from typing import Dict, List, Tuple
 
 
@@ -127,16 +127,6 @@ class HMM(object):
         return "\n".join(representation)
 
     @staticmethod
-    def numba_warm_up():
-        m = HMM({"AA": 1.0}, {"Aa": 1.0}, {"A": 1.0})
-
-        # HMM.calculate_viterbi_numba(m.Q, m.A, m.E, m.I, m.convert_symbols("a"))
-        m.viterbi_numba("a")
-
-        # HMM.calculate_viterbi_log_numba(m.Q, m.A_log, m.E_log, m.I_log, m.convert_symbols("a"))
-        m.viterbi_log_numba("a")
-
-    @staticmethod
     def calculate_viterbi(
             states: List[str],
             transition_matrix,
@@ -234,106 +224,6 @@ class HMM(object):
 
         return omx, path
 
-    @staticmethod
-    @nb.jit(nopython=True)
-    def calculate_viterbi_numba(
-            states: List[str],
-            transition_matrix,
-            emission_matrix,
-            initial_probabilities,
-            x: List[int]) -> Tuple[float, str]:
-
-        n_row, n_col = len(states), len(x)
-
-        # Probability information
-        # S(k, i), score of the most likely path up to step i with p(i) = k
-        mat = np.zeros(shape=(n_row, n_col), dtype=np.float64)
-
-        # Traceback information
-        mat_tb = np.zeros(shape=(n_row, n_col), dtype=np.int32)
-
-        # Fill in first column
-        for i in range(0, n_row):
-            mat[i, 0] = emission_matrix[i, x[0]] * initial_probabilities[i]
-
-        # Fill in the rest of the mat and mat_tb tables
-        for j in range(1, n_col):
-            for i in range(0, n_row):
-                ep = emission_matrix[i, x[j]]
-                mx, mxi = mat[0, j - 1] * transition_matrix[0, i] * ep, 0
-                for i2 in range(1, n_row):
-                    pr = mat[i2, j - 1] * transition_matrix[i2, i] * ep
-                    if pr > mx:
-                        mx, mxi = pr, i2
-                mat[i, j], mat_tb[i, j] = mx, mxi
-
-        # Find the final state with maximal probability
-        omx, omxi = mat[0, n_col - 1], 0
-        for i in range(1, n_row):
-            if mat[i, n_col - 1] > omx:
-                omx, omxi = mat[i, n_col - 1], i
-
-        # Backtrace
-        i, p = omxi, [omxi]
-        for j in range(n_col - 1, 0, -1):
-            i = mat_tb[i, j]
-            p.insert(0, i)
-
-        # Build path
-        path = "".join([states[q] for q in p])
-
-        return omx, path
-
-    @staticmethod
-    @nb.jit(nopython=True)
-    def calculate_viterbi_log_numba(
-            states: List[str],
-            transition_matrix,
-            emission_matrix,
-            initial_probabilities,
-            x: List[int]) -> Tuple[float, str]:
-
-        n_row, n_col = len(states), len(x)
-
-        # Probability information
-        # S(k, i), score of the most likely path up to step i with p(i) = k
-        mat = np.zeros(shape=(n_row, n_col), dtype=np.float64)
-
-        # Traceback information
-        mat_tb = np.zeros(shape=(n_row, n_col), dtype=np.int32)
-
-        # Fill in first column
-        for i in range(0, n_row):
-            mat[i, 0] = emission_matrix[i, x[0]] + initial_probabilities[i]
-
-        # Fill in the rest of the mat and mat_tb tables
-        for j in range(1, n_col):
-            for i in range(0, n_row):
-                ep = emission_matrix[i, x[j]]
-                mx, mxi = mat[0, j - 1] + transition_matrix[0, i] + ep, 0
-                for i2 in range(1, n_row):
-                    pr = mat[i2, j - 1] + transition_matrix[i2, i] + ep
-                    if pr > mx:
-                        mx, mxi = pr, i2
-                mat[i, j], mat_tb[i, j] = mx, mxi
-
-        # Find the final state with maximal probability
-        omx, omxi = mat[0, n_col - 1], 0
-        for i in range(1, n_row):
-            if mat[i, n_col - 1] > omx:
-                omx, omxi = mat[i, n_col - 1], i
-
-        # Backtrace
-        i, p = omxi, [omxi]
-        for j in range(n_col - 1, 0, -1):
-            i = mat_tb[i, j]
-            p.insert(0, i)
-
-        # Build path
-        path = "".join([states[q] for q in p])
-
-        return omx, path
-
     def convert_symbols(self, x: str) -> List[int]:
         return list(map(self.s_map.get, x))
         
@@ -384,11 +274,5 @@ class HMM(object):
 
     def viterbi_log(self, x: str) -> Tuple[float, str]:
         return HMM.calculate_viterbi_log(self.Q, self.A_log, self.E_log, self.I_log, self.convert_symbols(x))
-
-    def viterbi_numba(self, x: str) -> Tuple[float, str]:
-        return HMM.calculate_viterbi_numba(self.Q, self.A, self.E, self.I, self.convert_symbols(x))
-
-    def viterbi_log_numba(self, x: str) -> Tuple[float, str]:
-        return HMM.calculate_viterbi_log_numba(self.Q, self.A_log, self.E_log, self.I_log, self.convert_symbols(x))
 
     pass
