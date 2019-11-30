@@ -7,7 +7,6 @@ from hmm.hmm_jhu import HMM
 
 
 class HMMNumba(HMM):
-
     @staticmethod
     def warm_up():
         m = HMMNumba({"AA": 1.0}, {"Aa": 1.0}, {"A": 1.0})
@@ -21,11 +20,12 @@ class HMMNumba(HMM):
     @staticmethod
     @nb.jit(nopython=True)
     def calculate_viterbi(
-            states: List[str],
-            transition_matrix,
-            emission_matrix,
-            initial_probabilities,
-            x: List[int]) -> Tuple[float, str]:
+        states: List[str],
+        transition_matrix,
+        emission_matrix,
+        initial_probabilities,
+        x: List[int],
+    ) -> Tuple[float, str]:
 
         n_row, n_col = len(states), len(x)
 
@@ -71,11 +71,12 @@ class HMMNumba(HMM):
     @staticmethod
     @nb.jit(nopython=True)
     def calculate_viterbi_log(
-            states: List[str],
-            transition_matrix,
-            emission_matrix,
-            initial_probabilities,
-            x: List[int]) -> Tuple[float, str]:
+        states: List[str],
+        transition_matrix,
+        emission_matrix,
+        initial_probabilities,
+        x: List[int],
+    ) -> Tuple[float, str]:
 
         n_row, n_col = len(states), len(x)
 
@@ -119,7 +120,11 @@ class HMMNumba(HMM):
         return omx, path
 
     def viterbi(self, x: str) -> Tuple[float, str]:
-        return HMMNumba.calculate_viterbi(self.Q, self.A, self.E, self.I, self.convert_symbols(x))
+        return HMMNumba.calculate_viterbi(
+            self.Q, self.A, self.E, self.I, self.convert_symbols(x)
+        )
 
     def viterbi_log(self, x: str) -> Tuple[float, str]:
-        return HMMNumba.calculate_viterbi_log(self.Q, self.A_log, self.E_log, self.I_log, self.convert_symbols(x))
+        return HMMNumba.calculate_viterbi_log(
+            self.Q, self.A_log, self.E_log, self.I_log, self.convert_symbols(x)
+        )

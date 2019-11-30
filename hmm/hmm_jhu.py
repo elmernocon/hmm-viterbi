@@ -5,11 +5,12 @@ from typing import Dict, List, Tuple
 
 
 class HMM(object):
-
-    def __init__(self,
-                 transition_matrix: Dict[str, float],
-                 emission_matrix: Dict[str, float],
-                 initial_probabilities: Dict[str, float]):
+    def __init__(
+        self,
+        transition_matrix: Dict[str, float],
+        emission_matrix: Dict[str, float],
+        initial_probabilities: Dict[str, float],
+    ):
 
         # Initialize states and symbols
         self.Q, self.S = set(), set()
@@ -88,8 +89,7 @@ class HMM(object):
         )
 
         initial_probability_data_frame = pd.DataFrame(self.I).rename(
-            columns=lambda _: "%",
-            index=lambda s: self.Q.__getitem__(int(s))
+            columns=lambda _: "%", index=lambda s: self.Q.__getitem__(int(s))
         )
 
         transition_log_data_frame = pd.DataFrame(self.A_log).rename(
@@ -103,36 +103,42 @@ class HMM(object):
         )
 
         initial_log_probability_data_frame = pd.DataFrame(self.I_log).rename(
-            columns=lambda _: "%",
-            index=lambda s: self.Q.__getitem__(int(s))
+            columns=lambda _: "%", index=lambda s: self.Q.__getitem__(int(s))
         )
 
         representation = [
             f"States: {self.Q}",
             f"Symbols: {self.S}",
             "",
-            "Transition Matrix:", str(transition_data_frame),
+            "Transition Matrix:",
+            str(transition_data_frame),
             "",
-            "Emission Matrix:", str(emission_data_frame),
+            "Emission Matrix:",
+            str(emission_data_frame),
             "",
-            "Initial Probability:", str(initial_probability_data_frame),
+            "Initial Probability:",
+            str(initial_probability_data_frame),
             "",
-            "Transition Matrix (log2):", str(transition_log_data_frame),
+            "Transition Matrix (log2):",
+            str(transition_log_data_frame),
             "",
-            "Emission Matrix (log2):", str(emission_log_data_frame),
+            "Emission Matrix (log2):",
+            str(emission_log_data_frame),
             "",
-            "Initial Probability (log2):", str(initial_log_probability_data_frame)
+            "Initial Probability (log2):",
+            str(initial_log_probability_data_frame),
         ]
 
         return "\n".join(representation)
 
     @staticmethod
     def calculate_viterbi(
-            states: List[str],
-            transition_matrix,
-            emission_matrix,
-            initial_probabilities,
-            x: List[int]) -> Tuple[float, str]:
+        states: List[str],
+        transition_matrix,
+        emission_matrix,
+        initial_probabilities,
+        x: List[int],
+    ) -> Tuple[float, str]:
 
         n_row, n_col = len(states), len(x)
 
@@ -177,11 +183,12 @@ class HMM(object):
 
     @staticmethod
     def calculate_viterbi_log(
-            states: List[str],
-            transition_matrix,
-            emission_matrix,
-            initial_probabilities,
-            x: List[int]) -> Tuple[float, str]:
+        states: List[str],
+        transition_matrix,
+        emission_matrix,
+        initial_probabilities,
+        x: List[int],
+    ) -> Tuple[float, str]:
 
         n_row, n_col = len(states), len(x)
 
@@ -226,7 +233,7 @@ class HMM(object):
 
     def convert_symbols(self, x: str) -> List[int]:
         return list(map(self.s_map.get, x))
-        
+
     def joint_probability(self, p: str, x: str) -> float:
 
         # Convert state characters to identifiers
@@ -270,9 +277,13 @@ class HMM(object):
         return probability
 
     def viterbi(self, x: str) -> Tuple[float, str]:
-        return HMM.calculate_viterbi(self.Q, self.A, self.E, self.I, self.convert_symbols(x))
+        return HMM.calculate_viterbi(
+            self.Q, self.A, self.E, self.I, self.convert_symbols(x)
+        )
 
     def viterbi_log(self, x: str) -> Tuple[float, str]:
-        return HMM.calculate_viterbi_log(self.Q, self.A_log, self.E_log, self.I_log, self.convert_symbols(x))
+        return HMM.calculate_viterbi_log(
+            self.Q, self.A_log, self.E_log, self.I_log, self.convert_symbols(x)
+        )
 
     pass
