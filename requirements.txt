@@ -1,0 +1,4 @@
+numpy==1.17.4
+pandas==0.25.3
+numba==0.43.1
+typing==3.7.4.1
