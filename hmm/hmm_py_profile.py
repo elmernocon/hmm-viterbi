@@ -21,13 +21,13 @@ class HMM(object):
 
         # Add state labels to the set self.Q
         for transition, probability in transition_matrix.items():
-            source, destination = transition.split('-')
+            source, destination = transition.split("-")
             self.Q.add(source)
             self.Q.add(destination)
 
         # Add symbols to the set self.S
         for emission, probability in emission_matrix.items():
-            state, symbol = emission.split('-')
+            state, symbol = emission.split("-")
             self.Q.add(state)
             self.S.add(symbol)
 
@@ -46,7 +46,7 @@ class HMM(object):
         # Create and populate transition probability matrix
         self.A = [[0.0 for x in range(self.q_len)] for y in range(self.q_len)]
         for transition, probability in transition_matrix.items():
-            source, destination = transition.split('-')
+            source, destination = transition.split("-")
             self.A[self.q_map[source]][self.q_map[destination]] = probability
 
         # Make self.A stochastic (i.e. make rows add to 1)
@@ -59,7 +59,7 @@ class HMM(object):
         # Create and populate emission probability matrix
         self.E = [[0.0 for x in range(self.s_len)] for y in range(self.q_len)]
         for emission, probability in emission_matrix.items():
-            state, symbol = emission.split('-')
+            state, symbol = emission.split("-")
             self.E[self.q_map[state]][self.s_map[symbol]] = probability
 
         # Make self.E stochastic (i.e. make rows add to 1)
@@ -86,7 +86,7 @@ class HMM(object):
         self.I_log = [log2(x) for x in self.I]
 
         # Save deletion states
-        self.deletion_states = [q for q in self.Q if str(q).startswith('D')]
+        self.deletion_states = [q for q in self.Q if str(q).startswith("D")]
         self.deletion_states_mapped = [self.q_map[q] for q in self.deletion_states]
 
     def __repr__(self):
@@ -303,14 +303,22 @@ class HMM(object):
 
     def viterbi(self, x: str) -> Tuple[float, str]:
         return HMM.calculate_viterbi(
-            self.Q, self.A, self.E, self.I, self.convert_symbols(x),
-            deletion_states=self.deletion_states_mapped
+            self.Q,
+            self.A,
+            self.E,
+            self.I,
+            self.convert_symbols(x),
+            deletion_states=self.deletion_states_mapped,
         )
 
     def viterbi_log(self, x: str) -> Tuple[float, str]:
         return HMM.calculate_viterbi_log(
-            self.Q, self.A_log, self.E_log, self.I_log, self.convert_symbols(x),
-            deletion_states=self.deletion_states_mapped
+            self.Q,
+            self.A_log,
+            self.E_log,
+            self.I_log,
+            self.convert_symbols(x),
+            deletion_states=self.deletion_states_mapped,
         )
 
     pass

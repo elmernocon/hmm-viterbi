@@ -5,27 +5,23 @@ from hmm.hmm_py_profile import HMM
 
 
 def init():
-    pd.set_option('display.max_rows', 500)
-    pd.set_option('display.max_columns', 500)
-    pd.set_option('display.width', 1000)
+    pd.set_option("display.max_rows", 500)
+    pd.set_option("display.max_columns", 500)
+    pd.set_option("display.width", 1000)
 
 
 def pad(i: int, size: int = 3, fill: str = "0") -> str:
     return str(i).rjust(size, fill)
 
 
-def create_observation(
-    size: int = 1
-) -> str:
+def create_observation(size: int = 1) -> str:
     s = size * 5
     t = float(s) * 0.2
     u = rd.randint(-t, t)
-    return "".join([rd.choice('acgt') for _ in range(s + u)])
+    return "".join([rd.choice("acgt") for _ in range(s + u)])
 
 
-def create_profile_hmm(
-    size: int = 1
-) -> HMM:
+def create_profile_hmm(size: int = 1) -> HMM:
     transition_matrix = dict()
 
     transition_matrix[f"Begin-I{pad(0)}"] = 0.1

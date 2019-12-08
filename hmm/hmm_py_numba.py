@@ -19,11 +19,11 @@ class HMMNumba(HMM):
     @staticmethod
     @nb.jit
     def calculate_viterbi(
-            states: List[str],
-            transition_matrix,
-            emission_matrix,
-            initial_probabilities,
-            x: List[int],
+        states: List[str],
+        transition_matrix,
+        emission_matrix,
+        initial_probabilities,
+        x: List[int],
     ) -> Tuple[float, str]:
 
         n_row, n_col = len(states), len(x)
@@ -70,11 +70,11 @@ class HMMNumba(HMM):
     @staticmethod
     @nb.jit
     def calculate_viterbi_log(
-            states: List[str],
-            transition_matrix,
-            emission_matrix,
-            initial_probabilities,
-            x: List[int],
+        states: List[str],
+        transition_matrix,
+        emission_matrix,
+        initial_probabilities,
+        x: List[int],
     ) -> Tuple[float, str]:
 
         n_row, n_col = len(states), len(x)

@@ -4,7 +4,6 @@ from hmm.hmm_jhu import HMM
 
 def create_hmm_cpg_islands():
 
-
     hmm_cpg_islands = HMM(
         # States
         # 0 : Begin/End

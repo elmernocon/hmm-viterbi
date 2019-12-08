@@ -19,12 +19,12 @@ class HMMNumba(HMM):
     @staticmethod
     @nb.jit
     def calculate_viterbi(
-            states: List[str],
-            transition_matrix,
-            emission_matrix,
-            initial_probabilities,
-            x: List[int],
-            deletion_states=None,
+        states: List[str],
+        transition_matrix,
+        emission_matrix,
+        initial_probabilities,
+        x: List[int],
+        deletion_states=None,
     ) -> Tuple[float, str]:
 
         if deletion_states is None:
@@ -76,12 +76,12 @@ class HMMNumba(HMM):
     @staticmethod
     @nb.jit
     def calculate_viterbi_log(
-            states: List[str],
-            transition_matrix,
-            emission_matrix,
-            initial_probabilities,
-            x: List[int],
-            deletion_states=None,
+        states: List[str],
+        transition_matrix,
+        emission_matrix,
+        initial_probabilities,
+        x: List[int],
+        deletion_states=None,
     ) -> Tuple[float, str]:
 
         if deletion_states is None:
@@ -132,12 +132,20 @@ class HMMNumba(HMM):
 
     def viterbi(self, x: str) -> Tuple[float, str]:
         return HMM.calculate_viterbi(
-            self.Q, self.A, self.E, self.I, self.convert_symbols(x),
-            deletion_states=self.deletion_states_mapped
+            self.Q,
+            self.A,
+            self.E,
+            self.I,
+            self.convert_symbols(x),
+            deletion_states=self.deletion_states_mapped,
         )
 
     def viterbi_log(self, x: str) -> Tuple[float, str]:
         return HMM.calculate_viterbi_log(
-            self.Q, self.A_log, self.E_log, self.I_log, self.convert_symbols(x),
-            deletion_states=self.deletion_states_mapped
+            self.Q,
+            self.A_log,
+            self.E_log,
+            self.I_log,
+            self.convert_symbols(x),
+            deletion_states=self.deletion_states_mapped,
         )
