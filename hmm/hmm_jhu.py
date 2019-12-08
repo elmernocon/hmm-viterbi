@@ -6,7 +6,7 @@ from typing import Dict, List, Tuple
 
 
 def log2(x):
-    return float("-inf") if x == 0 else math.log2(x)
+    return -10000 if x == 0 else math.log2(x)
 
 
 class HMM(object):
