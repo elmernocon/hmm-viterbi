@@ -1,9 +1,10 @@
 from hmm.hmm_jhu import HMM as HMMJHU
-from hmm.hmm_profile import HMM as HMMProfile
 from hmm.hmm_py import HMM as HMMPy
+from hmm.hmm_jhu_profile import HMM as HMMJHUProfile
+from hmm.hmm_py_profile import HMM as HMMPyProfile
 
-if __name__ == "__main__":
 
+def main():
     t = {
         "A-A": 0.5,
         "A-B": 0.33,
@@ -33,23 +34,26 @@ if __name__ == "__main__":
 
     seq = "0110110111"
     hmm_jhu = HMMJHU(t, e, i)
-    hmm_profile = HMMProfile(t, e, i)
     hmm_py = HMMPy(t, e, i)
+    hmm_jhu_profile = HMMJHUProfile(t, e, i)
+    hmm_py_profile = HMMPyProfile(t, e, i)
 
-    str_hmm_jhu = str(hmm_jhu)
-    str_hmm_profile = str(hmm_profile)
-    str_hmm_py = str(hmm_py)
-
-    if not (str_hmm_jhu == str_hmm_profile == str_hmm_py):
+    if not (str(hmm_jhu) == str(hmm_py) ==
+            str(hmm_jhu_profile) == str(hmm_py_profile)):
         raise Exception
 
-    pb_hmm_jhu, pt_hmm_jhu = hmm_jhu.viterbi(seq)
-    pb_hmm_profile, pt_hmm_profile = hmm_profile.viterbi(seq)
-    pb_hmm_py, pt_hmm_py = hmm_py.viterbi(seq)
-
-    if not ((pb_hmm_jhu, pt_hmm_jhu) == (pb_hmm_py, pt_hmm_py)):
+    if hmm_jhu.viterbi(seq) != hmm_py.viterbi(seq):
         raise Exception
 
-    print(pb_hmm_jhu, pt_hmm_jhu)
-    print(pb_hmm_profile, pt_hmm_profile)
-    print(pb_hmm_py, pt_hmm_py)
+    if hmm_jhu.viterbi_log(seq) != hmm_py.viterbi_log(seq):
+        raise Exception
+
+    if hmm_jhu_profile.viterbi(seq) != hmm_py_profile.viterbi(seq):
+        raise Exception
+
+    if hmm_jhu_profile.viterbi_log(seq) != hmm_py_profile.viterbi_log(seq):
+        raise Exception
+
+
+if __name__ == "__main__":
+    main()

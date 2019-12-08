@@ -1,7 +1,7 @@
 import pandas as pd
 import random as rd
 
-from hmm.hmm_profile import HMM
+from hmm.hmm_py_profile import HMM
 
 
 def init():
@@ -119,7 +119,7 @@ def create_profile_hmm(
 if __name__ == "__main__":
     init()
 
-    sz = 20
+    sz = 5  # sz is automatically multiplied by 5.
 
     observation = create_observation(sz)
     print(observation, len(observation))
