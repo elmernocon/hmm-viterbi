@@ -7,8 +7,8 @@ class HMMTestCase(unittest.TestCase):
         from hmm.hmm_jhu import HMM
 
         hmm = HMM(
-            {"FF": 0.85, "FL": 0.15, "LF": 0.1, "LL": 0.9},  # Transition matrix
-            {"FH": 0.65, "FT": 0.35, "LH": 0.75, "LT": 0.25},  # Emission matrix
+            {"F-F": 0.85, "F-L": 0.15, "L-F": 0.1, "L-L": 0.9},  # Transition matrix
+            {"F-H": 0.65, "F-T": 0.35, "L-H": 0.75, "L-T": 0.25},  # Emission matrix
             {"F": 0.5, "L": 0.5},
         )  # Initial probabilities
 
@@ -53,8 +53,8 @@ L -1.0"
         from hmm.hmm_jhu import HMM
 
         hmm = HMM(
-            {"FF": 0.9, "FL": 0.1, "LF": 0.1, "LL": 0.9},  # Transition matrix
-            {"FH": 0.5, "FT": 0.5, "LH": 0.75, "LT": 0.25},  # Emission matrix
+            {"F-F": 0.9, "F-L": 0.1, "L-F": 0.1, "L-L": 0.9},  # Transition matrix
+            {"F-H": 0.5, "F-T": 0.5, "L-H": 0.75, "L-T": 0.25},  # Emission matrix
             {"F": 0.5, "L": 0.5},
         )  # Initial probabilities
 
@@ -69,8 +69,8 @@ L -1.0"
         from hmm.hmm_jhu import HMM
 
         hmm = HMM(
-            {"FF": 0.9, "FL": 0.1, "LF": 0.1, "LL": 0.9},  # Transition matrix
-            {"FH": 0.5, "FT": 0.5, "LH": 0.75, "LT": 0.25},  # Emission matrix
+            {"F-F": 0.9, "F-L": 0.1, "L-F": 0.1, "L-L": 0.9},  # Transition matrix
+            {"F-H": 0.5, "F-T": 0.5, "L-H": 0.75, "L-T": 0.25},  # Emission matrix
             {"F": 0.5, "L": 0.5},
         )  # Initial probabilities
 
@@ -84,8 +84,8 @@ L -1.0"
         from hmm.hmm_jhu import HMM
 
         hmm = HMM(
-            {"FF": 0.6, "FL": 0.4, "LF": 0.4, "LL": 0.6},  # Transition matrix
-            {"FH": 0.5, "FT": 0.5, "LH": 0.8, "LT": 0.2},  # Emission matrix
+            {"F-F": 0.6, "F-L": 0.4, "L-F": 0.4, "L-L": 0.6},  # Transition matrix
+            {"F-H": 0.5, "F-T": 0.5, "L-H": 0.8, "L-T": 0.2},  # Emission matrix
             {"F": 0.5, "L": 0.5},
         )  # Initial probabilities
 
@@ -101,8 +101,8 @@ L -1.0"
         from hmm.hmm_jhu import HMM
 
         hmm = HMM(
-            {"FF": 0.6, "FL": 0.4, "LF": 0.4, "LL": 0.6},  # Transition matrix
-            {"FH": 0.5, "FT": 0.5, "LH": 0.8, "LT": 0.2},  # Emission matrix
+            {"F-F": 0.6, "F-L": 0.4, "L-F": 0.4, "L-L": 0.6},  # Transition matrix
+            {"F-H": 0.5, "F-T": 0.5, "L-H": 0.8, "L-T": 0.2},  # Emission matrix
             {"F": 0.5, "L": 0.5},
         )  # Initial probabilities
 
@@ -117,8 +117,8 @@ L -1.0"
         from hmm.hmm_jhu import HMM
 
         hmm = HMM(
-            {"FF": 0.6, "FL": 0.4, "LF": 0.4, "LL": 0.6},  # Transition matrix
-            {"FH": 0.5, "FT": 0.5, "LH": 0.8, "LT": 0.2},  # Emission matrix
+            {"F-F": 0.6, "F-L": 0.4, "L-F": 0.4, "L-L": 0.6},  # Transition matrix
+            {"F-H": 0.5, "F-T": 0.5, "L-H": 0.8, "L-T": 0.2},  # Emission matrix
             {"F": 0.5, "L": 0.5},
         )  # Initial probabilities
 

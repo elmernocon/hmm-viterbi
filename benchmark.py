@@ -62,14 +62,14 @@ def benchmark_py_numba(number, observation, values):
 
 
 if __name__ == "__main__":
-    num = 10000
+    num = 1
     obs = "THTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTH"
     val = """
-        {"FF": 0.6, "FL": 0.4, "LF": 0.4, "LL": 0.6},
-        {"FH": 0.5, "FT": 0.5, "LH": 0.8, "LT": 0.2},
+        {"F-F": 0.6, "F-L": 0.4, "L-F": 0.4, "L-L": 0.6},
+        {"F-H": 0.5, "F-T": 0.5, "L-H": 0.8, "L-T": 0.2},
         {"F": 0.5, "L": 0.5}"""
 
-    # benchmark_numpy_base(num, obs, val)
-    benchmark_numpy_numba(num, obs, val)
-    # benchmark_py_base(num, obs, val)
-    benchmark_py_numba(num, obs, val)
+    benchmark_numpy_base(num, obs, val)
+    # benchmark_numpy_numba(num, obs, val)
+    benchmark_py_base(num, obs, val)
+    # benchmark_py_numba(num, obs, val)

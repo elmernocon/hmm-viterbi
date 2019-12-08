@@ -21,13 +21,13 @@ class HMM(object):
 
         # Add state labels to the set self.Q
         for transition, probability in transition_matrix.items():
-            source, destination = transition[0], transition[1]
+            source, destination = transition.split('-')
             self.Q.add(source)
             self.Q.add(destination)
 
         # Add symbols to the set self.S
         for emission, probability in emission_matrix.items():
-            state, symbol = emission[0], emission[1]
+            state, symbol = emission.split('-')
             self.Q.add(state)
             self.S.add(symbol)
 
@@ -46,7 +46,7 @@ class HMM(object):
         # Create and populate transition probability matrix
         self.A = [[0.0 for x in range(self.q_len)] for y in range(self.q_len)]
         for transition, probability in transition_matrix.items():
-            source, destination = transition[0], transition[1]
+            source, destination = transition.split('-')
             self.A[self.q_map[source]][self.q_map[destination]] = probability
 
         # Make self.A stochastic (i.e. make rows add to 1)
@@ -57,9 +57,9 @@ class HMM(object):
                     self.A[row][col] = self.A[row][col] / row_sums[row]
 
         # Create and populate emission probability matrix
-        self.E = [[0.0 for x in range(self.q_len)] for y in range(self.s_len)]
+        self.E = [[0.0 for x in range(self.s_len)] for y in range(self.q_len)]
         for emission, probability in emission_matrix.items():
-            state, symbol = emission[0], emission[1]
+            state, symbol = emission.split('-')
             self.E[self.q_map[state]][self.s_map[symbol]] = probability
 
         # Make self.E stochastic (i.e. make rows add to 1)
