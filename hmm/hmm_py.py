@@ -4,6 +4,10 @@ import pandas as pd
 from typing import Dict, List, Tuple
 
 
+def log2(x):
+    return float("-inf") if x == 0 else math.log2(x)
+
+
 class HMM(object):
     def __init__(
         self,
@@ -49,7 +53,8 @@ class HMM(object):
         row_sums = [sum(row) for row in self.A]
         for row in range(len(self.A)):
             for col in range(len(self.A[row])):
-                self.A[row][col] = self.A[row][col] / row_sums[row]
+                if row_sums[row] > 0:
+                    self.A[row][col] = self.A[row][col] / row_sums[row]
 
         # Create and populate emission probability matrix
         self.E = [[0.0 for x in range(self.q_len)] for y in range(self.s_len)]
@@ -61,7 +66,8 @@ class HMM(object):
         row_sums = [sum(row) for row in self.E]
         for row in range(len(self.E)):
             for col in range(len(self.E[row])):
-                self.E[row][col] = self.E[row][col] / row_sums[row]
+                if row_sums[row] > 0:
+                    self.E[row][col] = self.E[row][col] / row_sums[row]
 
         # Initial probability
         self.I = [0.0] * self.q_len
@@ -70,13 +76,14 @@ class HMM(object):
 
         # Make self.I stochastic (i.e. adds to 1)
         row_sum = sum(self.I)
-        for i in range(len(self.I)):
-            self.I[i] = self.I[i] / row_sum
+        if row_sum > 0:
+            for i in range(len(self.I)):
+                self.I[i] = self.I[i] / row_sum
 
         # Create log-base-2 versions for log-space functions
-        self.A_log = [[math.log2(x) for x in y] for y in self.A]
-        self.E_log = [[math.log2(x) for x in y] for y in self.E]
-        self.I_log = [math.log2(x) for x in self.I]
+        self.A_log = [[log2(x) for x in y] for y in self.A]
+        self.E_log = [[log2(x) for x in y] for y in self.E]
+        self.I_log = [log2(x) for x in self.I]
 
     def __repr__(self):
 

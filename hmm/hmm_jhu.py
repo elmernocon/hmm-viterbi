@@ -1,7 +1,12 @@
+import math
 import numpy as np
 import pandas as pd
 
 from typing import Dict, List, Tuple
+
+
+def log2(x):
+    return float("-inf") if x == 0 else math.log2(x)
 
 
 class HMM(object):
@@ -72,9 +77,9 @@ class HMM(object):
         self.I = np.divide(self.I, sum(self.I))
 
         # Create log-base-2 versions for log-space functions
-        self.A_log = np.log2(self.A)
-        self.E_log = np.log2(self.E)
-        self.I_log = np.log2(self.I)
+        self.A_log = np.array([[log2(x) for x in y] for y in self.A])
+        self.E_log = np.array([[log2(x) for x in y] for y in self.E])
+        self.I_log = np.array([log2(x) for x in self.I])
 
     def __repr__(self):
 
