@@ -1,4 +1,8 @@
+import argparse
+import random
 import timeit
+
+OBSERVATION = "THTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTH"
 
 
 def benchmark(number, stmt, setup=None):
@@ -59,6 +63,35 @@ def benchmark_py_numba(number, observation, values):
             ")",
         ],
     )
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Benchmarking HMM for Dishonest Casino"
+    )
+    group = parser.add_argument_group("Parameters")
+    group.add_argument(
+            "-e",
+            "--executions",
+            required=False,
+            default=1,
+            type=int,
+            help="The number of times to run the program."
+            )
+    group.add_argument(
+            "-o",
+            "--observation",
+            required=False,
+            default=OBSERVATION,
+            type=str,
+            help="The observed sequence."
+            )
+    arguments = parser.parse_args()
+    return arguments
+
+
+def main():
+    pass
 
 
 if __name__ == "__main__":
