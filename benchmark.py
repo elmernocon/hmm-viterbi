@@ -69,7 +69,8 @@ def benchmark_py_numba(number, observation, values):
 
 
 def generate_sequence(length):
-    return [random.choice(["H", "T"]) for _ in range(length)]
+    seq = [random.choice(["H", "T"]) for _ in range(length)]
+    return "".join([element for element in seq])
 
 
 def parse_args():
@@ -96,7 +97,7 @@ def parse_args():
     group.add_argument(
         "-r",
         "--generate_random",
-        default=60,
+        required=False,
         type=int,
         help="The length of generated observed sequence.",
     )
@@ -105,8 +106,16 @@ def parse_args():
 
 
 def main(arguments):
-    num = 1
-    obs = "THTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTH"
+    num = arguments.executions
+
+    if not arguments.generate_random:
+        obs = arguments.observation
+        print(obs)
+    else:
+        seq_len = arguments.generate_random
+        obs = generate_sequence(seq_len)
+        print(obs)
+
     val = """
         {"F-F": 0.6, "F-L": 0.4, "L-F": 0.4, "L-L": 0.6},
         {"F-H": 0.5, "F-T": 0.5, "L-H": 0.8, "L-T": 0.2},
