@@ -74,21 +74,21 @@ def parse_args():
     )
     group = parser.add_argument_group("Parameters")
     group.add_argument(
-            "-e",
-            "--executions",
-            required=False,
-            default=1,
-            type=int,
-            help="The number of times to run the program."
-            )
+        "-e",
+        "--executions",
+        required=False,
+        default=1,
+        type=int,
+        help="The number of times to run the program.",
+    )
     group.add_argument(
-            "-o",
-            "--observation",
-            required=False,
-            default=OBSERVATION,
-            type=str,
-            help="The observed sequence."
-            )
+        "-o",
+        "--observation",
+        required=False,
+        default=OBSERVATION,
+        type=str,
+        help="The observed sequence.",
+    )
     arguments = parser.parse_args()
     return arguments
 
