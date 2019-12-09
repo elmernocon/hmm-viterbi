@@ -2,6 +2,9 @@ import argparse
 import random
 import timeit
 
+
+SEED = 42
+random.seed(SEED)
 OBSERVATION = "THTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTH"
 
 
