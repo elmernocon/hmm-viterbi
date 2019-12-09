@@ -68,6 +68,10 @@ def benchmark_py_numba(number, observation, values):
     )
 
 
+def generate_sequence(length):
+    return [random.choice(["H", "T"]) for _ in range(length)]
+
+
 def parse_args():
     parser = argparse.ArgumentParser(
         description="Benchmarking HMM for Dishonest Casino"
