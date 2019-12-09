@@ -13,7 +13,7 @@ def benchmark(number, stmt, setup=None):
     duration = timeit.timeit(setup="\n".join(setup), stmt=stmt, number=number)
     report = f"Ran {number} times. Took {duration} secs."
 
-    print(f"{report.ljust(75)} {stmt}")
+    print(f"\t{report}\t|\t{stmt}")
 
 
 def benchmark_numpy_base(number, observation, values):
@@ -121,10 +121,14 @@ def main(arguments):
         {"F-H": 0.5, "F-T": 0.5, "L-H": 0.8, "L-T": 0.2},
         {"F": 0.5, "L": 0.5}"""
 
+    print("Base NumPy")
     benchmark_numpy_base(num, obs, val)
-    # benchmark_numpy_numba(num, obs, val)
+    print("Numba NumPy")
+    benchmark_numpy_numba(num, obs, val)
+    print("Base Python")
     benchmark_py_base(num, obs, val)
-    # benchmark_py_numba(num, obs, val)
+    print("Numba Python")
+    benchmark_py_numba(num, obs, val)
 
 
 if __name__ == "__main__":
