@@ -93,6 +93,13 @@ def parse_args():
         type=str,
         help="The observed sequence.",
     )
+    group.add_argument(
+        "-r",
+        "--generate_random",
+        default=60,
+        type=int,
+        help="The length of generated observed sequence.",
+    )
     arguments = parser.parse_args()
     return arguments
 
