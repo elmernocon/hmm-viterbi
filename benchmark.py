@@ -93,11 +93,7 @@ def parse_args():
     return arguments
 
 
-def main():
-    pass
-
-
-if __name__ == "__main__":
+def main(arguments):
     num = 1
     obs = "THTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTHTHTHHHTHTTH"
     val = """
@@ -109,3 +105,8 @@ if __name__ == "__main__":
     # benchmark_numpy_numba(num, obs, val)
     benchmark_py_base(num, obs, val)
     # benchmark_py_numba(num, obs, val)
+
+
+if __name__ == "__main__":
+    arguments = parse_args()
+    main(arguments)
