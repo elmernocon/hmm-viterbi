@@ -1,3 +1,4 @@
+import argparse
 import pandas as pd
 import random as rd
 
@@ -110,6 +111,38 @@ def create_profile_hmm(size: int = 1) -> HMM:
         initial_probabilities[f"M{pad(s)}"] = 0.0
 
     return HMM(transition_matrix, emission_matrix, initial_probabilities)
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+            description="Benchmarking Profile HMM"
+            )
+    group = parser.add_argument_group("Parameters")
+    group.add_argument(
+        "-e",
+        "--executions",
+        required=False,
+        default=1,
+        type=int,
+        help="The number of times to run the program.",
+    )
+    group.add_argument(
+        "-o",
+        "--observation",
+        required=False,
+        default=OBSERVATION,
+        type=str,
+        help="The observed sequence.",
+    )
+    group.add_argument(
+        "-r",
+        "--generate_random",
+        required=False,
+        type=int,
+        help="The length of generated observed sequence.",
+    )
+    arguments = parser.parse_args()
+    return arguments
 
 
 if __name__ == "__main__":
