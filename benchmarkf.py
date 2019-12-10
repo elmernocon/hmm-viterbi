@@ -6,7 +6,7 @@ from hmm.hmm_py_profile import HMM
 
 
 SEED = 42
-random.seed(42)
+rd.seed(42)
 
 
 def init():
