@@ -9,7 +9,7 @@ from hmm.hmm_jhu import HMM
 class HMMNumba(HMM):
     @staticmethod
     def warm_up():
-        m = HMMNumba({"AA": 1.0}, {"Aa": 1.0}, {"A": 1.0})
+        m = HMMNumba({"A-A": 1.0}, {"A-a": 1.0}, {"A": 1.0})
 
         # HMMNumba.calculate_viterbi(m.Q, m.A, m.E, m.I, m.convert_symbols("a"))
         m.viterbi("a")
