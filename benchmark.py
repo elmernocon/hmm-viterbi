@@ -113,6 +113,13 @@ def parse_args():
         nargs="+",
         help="Range of sequence lengths, e.g. (10, 100, 10) would produce sequence lengths of 10 to 90 with delta=10.",
     )
+    group.add_argument(
+        "-x",
+        "--export",
+        required=False,
+        type=bool,
+        help="Export the results to a file."
+    )
     arguments = parser.parse_args()
     return arguments
 
@@ -183,6 +190,20 @@ def main(arguments):
     print("Numba Python")
     python_numba_duration = benchmark_py_numba(num, obs, val)
     python_numba_durations.append(python_numba_duration)
+
+    if arguments.export:
+        with open("numpy_durations.txt", "w") as file:
+            for index, numpy_duration in enumerate(numpy_durations):
+                if index != len(numpy_durations) - 1:
+                    file.write("{}\n".format(numpy_duration))
+                else:
+                    file.write("{}".format(numpy_duration))
+        with open("python_durations.txt", "w") as file:
+            for index, python_duration in enumerate(python_durations):
+                if index != len(python_durations) - 1:
+                    file.write("{}\n".format(python_duration))
+                else:
+                    file.write("{}".format(python_duration))
 
 
 if __name__ == "__main__":
