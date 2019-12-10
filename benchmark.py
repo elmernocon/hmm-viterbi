@@ -124,6 +124,10 @@ def main(arguments):
         {"F-F": 0.6, "F-L": 0.4, "L-F": 0.4, "L-L": 0.6},
         {"F-H": 0.5, "F-T": 0.5, "L-H": 0.8, "L-T": 0.2},
         {"F": 0.5, "L": 0.5}"""
+    numpy_durations = []
+    numpy_numba_durations = []
+    python_durations = []
+    python_numba_durations = []
     if not arguments.generate_random and not arguments.interval:
         obs = arguments.observation
         print(obs)
@@ -135,10 +139,6 @@ def main(arguments):
         start = arguments.interval[0]
         end = arguments.interval[1]
         step = arguments.interval[2]
-        numpy_durations = []
-        numpy_numba_durations = []
-        python_durations = []
-        python_numba_durations = []
         for seq_len in range(start, end, step):
             obs = generate_sequence(seq_len)
 
