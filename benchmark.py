@@ -121,6 +121,7 @@ def parse_args():
         "--export",
         required=False,
         type=bool,
+        default=True,
         help="Export the results to a file.",
     )
     arguments = parser.parse_args()
