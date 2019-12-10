@@ -146,9 +146,9 @@ def main(arguments):
             numpy_duration = benchmark_numpy_base(num, obs, val)
             numpy_durations.append(numpy_duration)
 
-#             print("Numba NumPy")
-#             numpy_numba_duration = benchmark_numpy_numba(num, obs, val)
-#             numpy_numba_durations.append(numpy_numba_duration)
+            print("Numba NumPy")
+            numpy_numba_duration = benchmark_numpy_numba(num, obs, val)
+            numpy_numba_durations.append(numpy_numba_duration)
 
             print("Base Python")
             python_duration = benchmark_py_base(num, obs, val)
@@ -160,7 +160,7 @@ def main(arguments):
 
         sns.set_style("darkgrid")
         plt.plot(numpy_durations, label="Base NumPy")
-#         plt.plot(numpy_numba_durations, label="Numba NumPy")
+        plt.plot(numpy_numba_durations, label="Numba NumPy")
         plt.plot(python_durations, label="Base Python")
 #         plt.plot(python_numba_durations, label="Numba Python")
         plt.xlabel("Sequence Lengths")
@@ -168,6 +168,21 @@ def main(arguments):
         plt.legend(loc="upper left")
         plt.title("HMM Benchmark (Sequence Length vs. Time)")
         plt.show()
+    print("Base NumPy")
+    numpy_duration = benchmark_numpy_base(num, obs, val)
+    numpy_durations.append(numpy_duration)
+
+    print("Numba NumPy")
+    numpy_numba_duration = benchmark_numpy_numba(num, obs, val)
+    numpy_numba_durations.append(numpy_numba_duration)
+
+    print("Base Python")
+    python_duration = benchmark_py_base(num, obs, val)
+    python_durations.append(python_duration)
+
+    print("Numba Python")
+    python_numba_duration = benchmark_py_numba(num, obs, val)
+    python_numba_durations.append(python_numba_duration)
 
 
 if __name__ == "__main__":
