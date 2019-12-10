@@ -140,14 +140,17 @@ def parse_args():
     return arguments
 
 
-if __name__ == "__main__":
+def main(arguments):
     init()
-
-    sz = 5  # sz is automatically multiplied by 5.
-
-    observation = create_observation(sz)
+    size = arguments.length
+    observation = create_observation(size)
     print(observation, len(observation))
 
-    hmm = create_profile_hmm(sz)
+    hmm = create_profile_hmm(size)
     # print(hmm)
     print(hmm.viterbi_log(observation))
+
+
+if __name__ == "__main__":
+    arguments = parse_args()
+    main(arguments)
