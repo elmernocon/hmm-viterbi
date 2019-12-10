@@ -121,14 +121,6 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Benchmarking Profile HMM")
     group = parser.add_argument_group("Parameters")
     group.add_argument(
-        "-e",
-        "--executions",
-        required=False,
-        default=1,
-        type=int,
-        help="The number of times to run the program.",
-    )
-    group.add_argument(
         "-l",
         "--length",
         required=False,
