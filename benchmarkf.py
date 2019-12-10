@@ -118,9 +118,7 @@ def create_profile_hmm(size: int = 1) -> HMM:
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(
-            description="Benchmarking Profile HMM"
-            )
+    parser = argparse.ArgumentParser(description="Benchmarking Profile HMM")
     group = parser.add_argument_group("Parameters")
     group.add_argument(
         "-e",
@@ -131,19 +129,12 @@ def parse_args():
         help="The number of times to run the program.",
     )
     group.add_argument(
-        "-o",
-        "--observation",
+        "-l",
+        "--length",
         required=False,
-        default=OBSERVATION,
-        type=str,
-        help="The observed sequence.",
-    )
-    group.add_argument(
-        "-r",
-        "--generate_random",
-        required=False,
+        default=5,
         type=int,
-        help="The length of generated observed sequence.",
+        help="The length of the random observation sequence to generate.",
     )
     arguments = parser.parse_args()
     return arguments
