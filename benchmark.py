@@ -2,6 +2,9 @@ import argparse
 import random
 import timeit
 
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 
 SEED = 42
 random.seed(SEED)
@@ -14,10 +17,11 @@ def benchmark(number, stmt, setup=None):
     report = f"Ran {number} times. Took {duration} secs."
 
     print(f"\t{report}\t|\t{stmt}")
+    return duration
 
 
 def benchmark_numpy_base(number, observation, values):
-    benchmark(
+    return benchmark(
         number,
         f'hmm.viterbi("{observation}")',
         ["from hmm.hmm_jhu import HMM", "hmm = HMM(", values, ")"],
@@ -25,7 +29,7 @@ def benchmark_numpy_base(number, observation, values):
 
 
 def benchmark_numpy_numba(number, observation, values):
-    benchmark(
+    return benchmark(
         number,
         f'hmm_numba.viterbi("{observation}")',
         [
@@ -43,7 +47,7 @@ def benchmark_numpy_numba(number, observation, values):
 
 
 def benchmark_py_base(number, observation, values):
-    benchmark(
+    return benchmark(
         number,
         f'hmm.viterbi("{observation}")',
         ["from hmm.hmm_py import HMM", "hmm = HMM(", values, ")"],
@@ -51,7 +55,7 @@ def benchmark_py_base(number, observation, values):
 
 
 def benchmark_py_numba(number, observation, values):
-    benchmark(
+    return benchmark(
         number,
         f'hmm_numba.viterbi("{observation}")',
         [
@@ -101,6 +105,14 @@ def parse_args():
         type=int,
         help="The length of generated observed sequence.",
     )
+    group.add_argument(
+        "-i",
+        "--interval",
+        required=False,
+        type=int,
+        nargs="+",
+        help="Range of sequence lengths, e.g. (10, 100, 10) would produce sequence lengths of 10 to 90 with delta=10.",
+    )
     arguments = parser.parse_args()
     return arguments
 
@@ -108,27 +120,54 @@ def parse_args():
 def main(arguments):
     num = arguments.executions
 
-    if not arguments.generate_random:
-        obs = arguments.observation
-        print(obs)
-    else:
-        seq_len = arguments.generate_random
-        obs = generate_sequence(seq_len)
-        print(obs)
-
     val = """
         {"F-F": 0.6, "F-L": 0.4, "L-F": 0.4, "L-L": 0.6},
         {"F-H": 0.5, "F-T": 0.5, "L-H": 0.8, "L-T": 0.2},
         {"F": 0.5, "L": 0.5}"""
+    if not arguments.generate_random and not arguments.interval:
+        obs = arguments.observation
+        print(obs)
+    elif arguments.generate_random:
+        seq_len = arguments.generate_random
+        obs = generate_sequence(seq_len)
+        print(obs)
+    elif arguments.interval is not None:
+        start = arguments.interval[0]
+        end = arguments.interval[1]
+        step = arguments.interval[2]
+        numpy_durations = []
+        numpy_numba_durations = []
+        python_durations = []
+        python_numba_durations = []
+        for seq_len in range(start, end, step):
+            obs = generate_sequence(seq_len)
 
-    print("Base NumPy")
-    benchmark_numpy_base(num, obs, val)
-    print("Numba NumPy")
-    benchmark_numpy_numba(num, obs, val)
-    print("Base Python")
-    benchmark_py_base(num, obs, val)
-    print("Numba Python")
-    benchmark_py_numba(num, obs, val)
+            print("Base NumPy")
+            numpy_duration = benchmark_numpy_base(num, obs, val)
+            numpy_durations.append(numpy_duration)
+
+#             print("Numba NumPy")
+#             numpy_numba_duration = benchmark_numpy_numba(num, obs, val)
+#             numpy_numba_durations.append(numpy_numba_duration)
+
+            print("Base Python")
+            python_duration = benchmark_py_base(num, obs, val)
+            python_durations.append(python_duration)
+
+#             print("Numba Python")
+#             python_numba_duration = benchmark_py_numba(num, obs, val)
+#             python_numba_durations.append(python_numba_duration)
+
+        sns.set_style("darkgrid")
+        plt.plot(numpy_durations, label="Base NumPy")
+#         plt.plot(numpy_numba_durations, label="Numba NumPy")
+        plt.plot(python_durations, label="Base Python")
+#         plt.plot(python_numba_durations, label="Numba Python")
+        plt.xlabel("Sequence Lengths")
+        plt.ylabel("Duration (in seconds)")
+        plt.legend(loc="upper left")
+        plt.title("HMM Benchmark (Sequence Length vs. Time)")
+        plt.show()
 
 
 if __name__ == "__main__":
