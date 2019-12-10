@@ -1,8 +1,10 @@
 import argparse
+import random as rd
 import time
 
+import matplotlib.pyplot as plt
 import pandas as pd
-import random as rd
+import seaborn as sns
 
 from hmm.hmm_py_profile import HMM as phmm_python  # base python
 from hmm.hmm_py_profile_numba import HMMNumba as phmm_python_nb  # numba python
@@ -179,6 +181,17 @@ def main(arguments):
         numpy_numba_durations.append(duration)
         print("Numba NumPy")
         print(f"\tTook {duration} secs.\t|\t{result}")
+
+    sns.set_style("darkgrid")
+    plt.plot(python_durations, label="Base Python")
+    plt.plot(numpy_durations, label="Base NumPy")
+    plt.plot(python_numba_durations, label="Numba Python")
+    plt.plot(numpy_numba_durations, label="Numba NumPy")
+    plt.xlabel("Sequence Lengths")
+    plt.ylabel("Duration (in seconds)")
+    plt.title("Profile HMM (Sequence Length vs. Time)")
+    plt.legend(loc="upper left")
+    plt.show()
 
 
 if __name__ == "__main__":
