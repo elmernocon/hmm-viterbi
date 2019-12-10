@@ -2,7 +2,10 @@ import argparse
 import pandas as pd
 import random as rd
 
-from hmm.hmm_py_profile import HMM
+from hmm.hmm_py_profile import HMM  # pure python
+# from hmm.hmm_py_profile_numba import HMM  # numba python
+# from hmm.hmm_jhu_profile import HMM  # numpy
+# from hmm.hmm_jhu_profile_numba import HMM  # numba numpy
 
 
 SEED = 42
