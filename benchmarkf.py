@@ -144,6 +144,14 @@ def parse_args():
         type=int,
         help="The length of the random observation sequence to generate.",
     )
+    group.add_argument(
+        "-x",
+        "--export",
+        required=False,
+        default=True,
+        type=bool,
+        help="Export the results to a file."
+    )
     arguments = parser.parse_args()
     return arguments
 
@@ -192,6 +200,20 @@ def main(arguments):
     plt.title("Profile HMM (Sequence Length vs. Time)")
     plt.legend(loc="upper left")
     plt.show()
+
+    if arguments.export:
+        with open("numpy_durations.txt", "w") as file:
+            for index, numpy_duration in enumerate(numpy_durations):
+                if index != len(numpy_durations) - 1:
+                    file.write("{}\n".format(numpy_duration))
+                else:
+                    file.write("{}".format(numpy_duration))
+        with open("python_durations.txt", "w") as file:
+            for index, python_duration in enumerate(python_durations):
+                if index != len(python_durations) - 1:
+                    file.write("{}\n".format(python_duration))
+                else:
+                    file.write("{}".format(python_duration))
 
 
 if __name__ == "__main__":
