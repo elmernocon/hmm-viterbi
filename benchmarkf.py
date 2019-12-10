@@ -5,6 +5,10 @@ import random as rd
 from hmm.hmm_py_profile import HMM
 
 
+SEED = 42
+random.seed(42)
+
+
 def init():
     pd.set_option("display.max_rows", 500)
     pd.set_option("display.max_columns", 500)
