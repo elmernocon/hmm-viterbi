@@ -17,7 +17,9 @@ def benchmark(number, stmt, setup=None):
     report = f"Ran {number} times. Took {duration} secs."
 
     truncate_len = 80
-    print(f"\t{report}\t|\t{(stmt if len(stmt) < truncate_len else stmt[:truncate_len] + '..')}")
+    print(
+        f"\t{report}\t|\t{(stmt if len(stmt) < truncate_len else stmt[:truncate_len] + '..')}"
+    )
     return duration
 
 
@@ -119,7 +121,7 @@ def parse_args():
         "--export",
         required=False,
         type=bool,
-        help="Export the results to a file."
+        help="Export the results to a file.",
     )
     arguments = parser.parse_args()
     return arguments
