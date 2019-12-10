@@ -17,7 +17,7 @@ class HMMNumba(HMM):
         m.viterbi("a")
 
     @staticmethod
-    @nb.jit
+    @nb.jit(forceobj=True)
     def calculate_viterbi(
         states: List[str],
         transition_matrix,
@@ -68,7 +68,7 @@ class HMMNumba(HMM):
         return omx, path
 
     @staticmethod
-    @nb.jit
+    @nb.jit(forceobj=True)
     def calculate_viterbi_log(
         states: List[str],
         transition_matrix,
