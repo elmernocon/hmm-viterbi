@@ -16,7 +16,8 @@ def benchmark(number, stmt, setup=None):
     duration = timeit.timeit(setup="\n".join(setup), stmt=stmt, number=number)
     report = f"Ran {number} times. Took {duration} secs."
 
-    print(f"\t{report}\t|\t{stmt}")
+    truncate_len = 80
+    print(f"\t{report}\t|\t{(stmt if len(stmt) < truncate_len else stmt[:truncate_len] + '..')}")
     return duration
 
 
