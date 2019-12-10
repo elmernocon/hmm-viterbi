@@ -1,11 +1,13 @@
 import argparse
+import time
+
 import pandas as pd
 import random as rd
 
-from hmm.hmm_py_profile import HMM  # pure python
-# from hmm.hmm_py_profile_numba import HMM  # numba python
-# from hmm.hmm_jhu_profile import HMM  # numpy
-# from hmm.hmm_jhu_profile_numba import HMM  # numba numpy
+from hmm.hmm_py_profile import HMM as phmm_python  # base python
+from hmm.hmm_py_profile_numba import HMMNumba as phmm_python_nb  # numba python
+from hmm.hmm_jhu_profile import HMM as phmm_numpy  # base numpy
+from hmm.hmm_jhu_profile_numba import HMMNumba as phmm_numpy_nb  # numba numpy
 
 
 SEED = 42
@@ -29,7 +31,7 @@ def create_observation(size: int = 1) -> str:
     return "".join([rd.choice("acgt") for _ in range(s + u)])
 
 
-def create_profile_hmm(size: int = 1) -> HMM:
+def create_profile_hmm(HMM: object, size: int = 1) -> object:
     transition_matrix = dict()
 
     transition_matrix[f"Begin-I{pad(0)}"] = 0.1
@@ -120,6 +122,15 @@ def create_profile_hmm(size: int = 1) -> HMM:
     return HMM(transition_matrix, emission_matrix, initial_probabilities)
 
 
+def get_duration(hmm, size, observation):
+    start_time = time.time()
+    hmm = create_profile_hmm(hmm, size)
+    result = hmm.viterbi_log(observation)
+    end_time = time.time()
+    duration = end_time - start_time
+    return duration, result
+
+
 def parse_args():
     parser = argparse.ArgumentParser(description="Benchmarking Profile HMM")
     group = parser.add_argument_group("Parameters")
@@ -136,14 +147,38 @@ def parse_args():
 
 
 def main(arguments):
-    init()
-    size = arguments.length
-    observation = create_observation(size)
-    print(observation, len(observation))
 
-    hmm = create_profile_hmm(size)
-    # print(hmm)
-    print(hmm.viterbi_log(observation))
+    init()
+    phmm_python_nb.warm_up()
+    phmm_numpy_nb.warm_up()
+    python_durations = []
+    numpy_durations = []
+    python_numba_durations = []
+    numpy_numba_durations = []
+
+    for size in range(arguments.length, 10, 1):
+        observation = create_observation(size)
+        print(observation, len(observation))
+
+        duration, result = get_duration(phmm_python, size, observation)
+        python_durations.append(duration)
+        print("Base Python")
+        print(f"\tTook {duration} secs.\t|\t{result}")
+
+        duration, result = get_duration(phmm_numpy, size, observation)
+        numpy_durations.append(duration)
+        print("Base NumPy")
+        print(f"\tTook {duration} secs.\t|\t{result}")
+
+        duration, result = get_duration(phmm_python_nb, size, observation)
+        python_numba_durations.append(duration)
+        print("Numba Python")
+        print(f"\tTook {duration} secs.\t|\t{result}")
+
+        duration, result = get_duration(phmm_numpy_nb, size, observation)
+        numpy_numba_durations.append(duration)
+        print("Numba NumPy")
+        print(f"\tTook {duration} secs.\t|\t{result}")
 
 
 if __name__ == "__main__":
