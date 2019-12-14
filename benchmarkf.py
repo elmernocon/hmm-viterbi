@@ -137,12 +137,12 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Benchmarking Profile HMM")
     group = parser.add_argument_group("Parameters")
     group.add_argument(
-        "-l",
-        "--length",
+        "-i",
+        "--interval",
         required=False,
-        default=5,
         type=int,
-        help="The length of the random observation sequence to generate.",
+        nargs="+",
+        help="Range of sequence lengths, e.g. (10, 100, 10) would produce sequence lengths of 10 to 90 with delta=10.",
     )
     group.add_argument(
         "-x",
@@ -166,7 +166,16 @@ def main(arguments):
     python_numba_durations = []
     numpy_numba_durations = []
 
-    for size in range(arguments.length, 10, 1):
+    if arguments.interval is not None:
+        start = arguments.interval[0]
+        end = arguments.interval[1]
+        step = arguments.interval[2]
+    else:
+        start = 1
+        end = 10
+        step = 1
+
+    for size in range(start, end, step):
         observation = create_observation(size)
         print(observation, len(observation))
 
