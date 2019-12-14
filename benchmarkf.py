@@ -202,18 +202,30 @@ def main(arguments):
     plt.show()
 
     if arguments.export:
-        with open("numpy_durations.txt", "w") as file:
+        with open("benchmarkf_numpy_durations.txt", "w") as file:
             for index, numpy_duration in enumerate(numpy_durations):
                 if index != len(numpy_durations) - 1:
                     file.write("{}\n".format(numpy_duration))
                 else:
                     file.write("{}".format(numpy_duration))
-        with open("python_durations.txt", "w") as file:
+        with open("benchmarkf_python_durations.txt", "w") as file:
             for index, python_duration in enumerate(python_durations):
                 if index != len(python_durations) - 1:
                     file.write("{}\n".format(python_duration))
                 else:
                     file.write("{}".format(python_duration))
+        with open("benchmarkf_numpy_numba_durations.txt", "w") as file:
+            for index, numpy_numba_duration in enumerate(numpy_numba_durations):
+                if index != len(numpy_numba_durations) - 1:
+                    file.write("{}\n".format(numpy_numba_duration))
+                else:
+                    file.write("{}".format(numpy_numba_duration))
+        with open("benchmarkf_python_numba_durations.txt", "w") as file:
+            for index, python_numba_duration in enumerate(python_numba_durations):
+                if index != len(python_numba_durations) - 1:
+                    file.write("{}\n".format(python_numba_duration))
+                else:
+                    file.write("{}".format(python_numba_duration))
 
 
 if __name__ == "__main__":
