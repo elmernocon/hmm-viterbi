@@ -150,7 +150,7 @@ def parse_args():
         required=False,
         default=True,
         type=bool,
-        help="Export the results to a file."
+        help="Export the results to a file.",
     )
     arguments = parser.parse_args()
     return arguments
