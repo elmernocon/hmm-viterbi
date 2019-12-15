@@ -2,24 +2,35 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-with open("numpy_durations.txt", "r") as file:
-    numpy_durations = file.readlines()
+title = "Profile HMM (Sequence Length vs Time)"
+python_filename = "benchmark_python_durations.txt"
+numpy_filename = "benchmark_numpy_durations.txt"
+py_nb_filename = "benchmark_python_numba_durations.txt"
+np_nb_filename = "benchmark_numpy_numba_durations.txt"
 
-with open("python_durations.txt", "r") as file:
-    python_durations = file.readlines()
 
-numpy_durations = np.array(
-    [float(duration) for duration in numpy_durations], np.float64
-)
-python_durations = np.array(
-    [float(duration) for duration in python_durations], np.float64
-)
+def load_results(filename):
+    with open(filename, "r") as file:
+        durations = file.readlines()
+    durations = np.array(
+            [float(duration) for duration in durations], np.float64
+            )
+    return durations
+
+
+python_durations = load_results(python_filename)
+numpy_durations = load_results(numpy_filename)
+python_numba_durations = load_results(py_nb_filename)
+numpy_numba_durations = load_results(np_nb_filename)
 
 sns.set_style("darkgrid")
-plt.plot(numpy_durations, label="Base NumPy")
 plt.plot(python_durations, label="Base Python")
+plt.plot(numpy_durations, label="Base NumPy")
+plt.plot(python_numba_durations, label="Numba Python")
+plt.plot(numpy_numba_durations, label="Numba NumPy")
+plt.xlim((0, 90))
 plt.xlabel("Sequence Lengths")
 plt.ylabel("Duration (in seconds)")
 plt.legend(loc="upper left")
-plt.title("Profile HMM (Sequence Length vs. Time)")
+plt.title(title)
 plt.show()
