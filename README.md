@@ -3,7 +3,20 @@ Hidden Markov Model and Viterbi Algorithm: An optimization using Numba and PyPy
 
 ## Usage
 
-To run the HMM on Dishonest Casino, 
+It is recommended to create a virtual environment for using this repository.
+
+```buildoutcfg
+$ virtualenv venv --python=python3 
+$ source venv/bin/activate
+```
+
+Then, install the dependencies inside the virtual environment,
+
+```buildoutcfg
+$ pip install -r requirements.txt
+```
+
+To run the HMM on Dishonest Casino, the following are the program parameters,
 
 ```buildoutcfg
 usage: benchmark.py [-h] [-e EXECUTIONS] [-o OBSERVATION] [-r GENERATE_RANDOM]
@@ -28,6 +41,8 @@ produce sequence lengths of 10 to 90 with delta=10.
 Export the results to a file.
 ```
 
+For the Profile HMM, the following are the parameters
+
 ```buildoutcfg
 usage: benchmarkf.py [-h] [-i INTERVAL [INTERVAL ...]] [-x EXPORT]
 
@@ -44,3 +59,18 @@ Parameters:
                         Export the results to a file.
 ```
 
+In our study, we used the following arguments for benchmarking,
+
+For HMM,
+
+```buildoutcfg
+$ python3 benchmark.py --interval 10 100 10
+```
+
+For Profile HMM,
+
+```buildoutcfg
+$ python3 benchmarkf.py --interval 1 20 1
+```
+
+The seed values are already set in both benchmarking modules for reproducibility of pseudorandomly generated sequences for testing.
