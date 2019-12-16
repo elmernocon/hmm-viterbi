@@ -1,6 +1,10 @@
 Hidden Markov Model and Viterbi Algorithm: An optimization using Numba and PyPy
 ====
 
+## Overview
+
+What if we are given a sequence of observations over time, and we are interested in discovering the reason behind such a sequence, or predicting what the next state will be? In this article, we provide simple notes on the concept of Hidden Markov Model (HMM) -- a formalism to reason about states over time that is specifically aimed at decode a series of \textit{hidden} states from a series of observations. We also go through a fast decoding algorithm for HMM, called the \textit{Viterbi} algorithm, and implement in Python with the aid of \textit{just-in-time} (JIT) compilers to further improve the speed of the said algorithm.
+
 ## Usage
 
 It is recommended to create a virtual environment for using this repository.
