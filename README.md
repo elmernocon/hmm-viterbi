@@ -74,3 +74,11 @@ $ python3 benchmarkf.py --interval 1 20 1
 ```
 
 The seed values are already set in both benchmarking modules for reproducibility of pseudorandomly generated sequences for testing.
+
+To use our HMM implementations in a different Python program,
+
+```python3
+>>> from hmm.hmm_jhu import HMM
+>>> hmm = HMM(transition_matrix: dict, emmision_matrx: dict, initial_probabilities: dict)
+>>> hmm.viterbi(observation: str)
+```
