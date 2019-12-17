@@ -10,9 +10,7 @@ numpy_filename = "benchmark_numpy_durations.txt"
 def load_results(filename):
     with open(filename, "r") as file:
         durations = file.readlines()
-    durations = np.array(
-            [float(duration) for duration in durations], np.float64
-            )
+    durations = np.array([float(duration) for duration in durations], np.float64)
     return durations
 
 
